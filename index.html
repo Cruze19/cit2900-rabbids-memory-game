@@ -7,15 +7,13 @@
         <script src="index.js"defer></script>
         <link rel="icon" type="image/x-icon" href="/images/rabbidsInvasion.ico">
     </head>
-    
     <body>
         <header>
             <h1>Rabbids Invasion: Bwaaah Match!</h1>
             <p>CIT 2900-01 Final Project</p>
         </header>
-
         <main>
-            <!-- Control Panel & Time -->
+            <!-- Control Panel & Score board -->
              <section id ="control-panel">
                 <button id="start-button">Start Game</button>
                 <div id="score-board">
@@ -23,16 +21,13 @@
                     <span>Time: <stong id="Time">0<strong></strong></span>
                 </div>
              </section>
-
              <!-- Canvas Element for Custom Visuals/Animation -->
               <section id="canvas-section">
                 <canvas id="rabbidCanvas" width="400" height="100"></canvas>
               </section>
-
               <!-- Memory Card Game Board -->
                <div id="game-board" class="board"></div>
         </main>
-
         <footer>
             <p><strong>Instructions: </strong> Click "Start Game" to play. Match pairs of Rabbids pictures!</p>
         </footer>
