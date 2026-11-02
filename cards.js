@@ -18,10 +18,11 @@ const cardDataJSON = [
     { id: 14, name: "Raddid 14", image: "images/rabbids/raddid14.png" },
     { id: 15, name: "Rabbid 15", image: "images/rabbids/rabbid15.png" }];
 
+// Game state object to track the current game status
 const gameState =  {
     score: 0,
-    time: 0,
-    timeInterval: null,
+    timer: 0,
+    timerInterval: null,
     matchedPair: 0,
     cards: [],
     flipedCards: [],
@@ -77,8 +78,59 @@ function initCanvasAnimation() {
 
         // Decision Point: Reverse direction if text hit boarders
         if (xPos > 340 || xPos < 60) {
-            
+            direction = -direction;
         }
-        
+
+        // Update position for next frame and request next animation frame
+        xPos += direction;
+        requestAnimationFrame(animate);
     }
+
+    animate();
+}
+
+/**
+ * Game Logic & Functions
+ * Initialize and starts a new game session.
+ */
+async function initializeGame() {
+    const board = document.getElementById('game-board');
+    board.innerHTML = '';
+    
+    // Reset game state variables
+    gameState.score = 0;
+    gameState.matchedPair = 0;
+    gameState.timer = 0; 
+    updateScoreDisplay();
+
+    // Reset and start timer interval
+    clearInterval(gameState.timerInterval);
+    gameState.timerInterval = setInterval(() => {
+        gameState.timer++;
+        document.getElementById('timer').textContent = gameState.timer;
+    }, 1000);
+
+    try {
+        // Await the Promise to resolves the embedded JSON data
+        rawDATA = await loadCardData();
+
+        // Duplicate and shuffle the card array using loop
+        gameState.cards = duplicateAndShuffleCards(rawData);
+
+        // Loop through cards array to create card elements into the DOM(Document Object Model)
+        gameState.cards.forEach((cardData, index) => {
+            const cardElement = domcument.createElement('div');
+            cardElement.classList.add('card');
+            cardElement.dataset.name = cardData.name;
+            cardElement.dataset.index = index;
+            cardElement.textContent = '?'; // Placeholder for card back
+
+            // Event listener for user click to flip the card
+            cardElement.addEventListener('click', () => handleCardClick(cardElement, cardData));
+            board.appendChild(cardElement);
+        });
+    }catch (error) {
+        console.error('Error starting the game:', error);
+    }
+
 }
