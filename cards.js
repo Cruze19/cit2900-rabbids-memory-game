@@ -1,25 +1,29 @@
 'use strict'; // Strict Mode requirment
 
-// JSON data & game state object
+// Import canvas animation module from canvas.js
+import { initCanvasAnimation } from './canvas.js';
+
+// JSON data & game state object: images, names, and unique identifiers for each card
 const cardDataJSON = [
     { id: 1, name: "Raddid 1", img: "images/rabbids/rabbid1.png" },
-    { id: 2, name: "Raddid 2", img: "images/rabbids/raddid2.png" },
-    { id: 3, name: "Raddid 3", img: "images/rabbids/raddid3.png" },
-    { id: 4, name: "raddid 4", img: "images/rabbids/raddid4.png" },
+    { id: 2, name: "Raddid 2", img: "images/rabbids/rabbid2.png" },
+    { id: 3, name: "Raddid 3", img: "images/rabbids/rabbid3.png" },
+    { id: 4, name: "raddid 4", img: "images/rabbids/rabbid4.png" },
     { id: 5, name: "Raddid 5", img: "images/rabbids/rabbid5.png" },
-    { id: 6, name: "Raddid 6", img: "images/rabbids/raddid6.png" },
-    { id: 7, name: "Raddid 7", img: "images/rabbids/raddid7.png" },
-    { id: 8, name: "raddid 8", img: "images/rabbids/raddid8.png" },
+    { id: 6, name: "Raddid 6", img: "images/rabbids/rabbid6.png" },
+    { id: 7, name: "Raddid 7", img: "images/rabbids/rabbid7.png" },
+    { id: 8, name: "raddid 8", img: "images/rabbids/rabbid8.png" },
     { id: 9, name: "Raddid 9", img: "images/rabbids/rabbid9.png" },
-    { id: 10, name: "Raddid 10", img: "images/rabbids/raddid10.png" },
-    { id: 11, name: "Raddid 11", img: "images/rabbids/raddid11.png" },
-    { id: 12, name: "raddid 12", img: "images/rabbids/raddid12.png" },
+    { id: 10, name: "Raddid 10", img: "images/rabbids/rabbid10.png" },
+    { id: 11, name: "Raddid 11", img: "images/rabbids/rabbid11.png" },
+    { id: 12, name: "raddid 12", img: "images/rabbids/rabbid12.png" },
     { id: 13, name: "Raddid 13", img: "images/rabbids/rabbid13.png" },
-    { id: 14, name: "Raddid 14", img: "images/rabbids/raddid14.png" },
-    { id: 15, name: "Rabbid 15", img: "images/rabbids/rabbid15.png" }];
+    { id: 14, name: "Raddid 14", img: "images/rabbids/rabbid14.png" },
+    { id: 15, name: "Rabbid 15", img: "images/rabbids/rabbid15.png" }
+];
 
 // Game state object to track the current game status
-const gameState =  {
+const gameState = {
     score: 0,
     timer: 0,
     timerInterval: null,
@@ -31,62 +35,15 @@ const gameState =  {
 
 /*
     Promises Requirement
-    Wrap emebedded JSON data in a Promises
+    Wrap embedded JSON data in a Promise
 */
- function loadCardData() {
-    return new Promise((resolve) =>  {
-        // Descision Point: Simulate asynchronous loading using a Promise
+function loadCardData() {
+    return new Promise((resolve) => {
+        // Decision Point: Simulate asynchronous loading using a Promise
         setTimeout(() => {
             resolve(cardDataJSON);
         }, 100);
     });
- }
-
- /*
-    Canvas Requirement
-    Custom animated and tranformed graphic 
- */
-function initCanvasAnimation() {
-    const canvas = document.getElementById('rabbidCanvas');
-    const context =  canvas.getContext('2d'); 
-    
-    let xPos = 50;
-    let direction = 2;
-
-    function animate() {
-        // Clear canvas frame
-        context.clearRecr(0, 0, canvas.width, canvas.height);
-
-        // Save Canvas state before transformation
-        context.save();
-
-        // Apply translation and scaling transformations
-        context.translate(xPos, 50);
-        context.Scale(1.1, 1.1);
-
-        // Draw custom graphic banner
-        context.fillStyle = '#d32f2f';
-        context.fillReact(-50, -20, 100, 40);
-
-        // Draw text onto canvas
-        context.fillStyle = '#ffffff';
-        context.font = 'bold 16px Arial';
-        context.fillText('BWAAAH!', -35, 6);
-
-        // Restore canvas state
-        context.restore();
-
-        // Decision Point: Reverse direction if text hit boarders
-        if (xPos > 340 || xPos < 60) {
-            direction = -direction;
-        }
-
-        // Update position for next frame and request next animation frame
-        xPos += direction;
-        requestAnimationFrame(animate);
-    }
-
-    animate();
 }
 
 /**
@@ -111,13 +68,13 @@ async function initializeGame() {
     }, 1000);
 
     try {
-        // Await the Promise to resolves the embedded JSON data
+        // Await the Promise to resolve the embedded JSON data
         const rawData = await loadCardData();
 
         // Duplicate and shuffle the card array using loop
         gameState.cards = duplicateAndShuffleCards(rawData);
 
-        // Loop through cards array to create card elements into the DOM(Document Object Model)
+        // Loop through cards array to create card elements into the DOM
         gameState.cards.forEach((cardData, index) => {
             const cardElement = document.createElement('div');
             cardElement.classList.add('card');
@@ -129,15 +86,14 @@ async function initializeGame() {
             cardElement.addEventListener('click', () => handleCardClick(cardElement, cardData));
             board.appendChild(cardElement);
         });
-    }catch (error) {
+    } catch (error) {
         console.error('Error starting the game:', error);
     }
-
 }
 
 /**
  * Duplicates base cards and performs Fisher-Yates array 
-   shuffing loop.
+   shuffling loop.
  */
 function duplicateAndShuffleCards(baseCards) {
     // Duplicate the array
@@ -157,8 +113,8 @@ function duplicateAndShuffleCards(baseCards) {
     Event handlers for card elements.
  */
 function handleCardClick(element, data) {
-    // Decision Point: Ignore clicks if the gameboard is locked or the card is already flipped/matches
-    if(gameState.isLocked || element.classList.contains('flipped') || element.classList.contains('matched')) {
+    // Decision Point: Ignore clicks if the gameboard is locked or the card is already flipped/matched
+    if (gameState.isLocked || element.classList.contains('flipped') || element.classList.contains('matched')) {
         return;
     }
 
@@ -167,7 +123,7 @@ function handleCardClick(element, data) {
     element.innerHTML = `<img src="${data.img}" alt="${data.name}">`;
     gameState.flippedCards.push({ element, data });
 
-    //Decision Point: Check match logic when two cards are selected
+    // Decision Point: Check match logic when two cards are selected
     if (gameState.flippedCards.length === 2) {
         checkForMatch();
     }
@@ -184,13 +140,13 @@ function checkForMatch() {
         card1.element.classList.add('matched');
         card2.element.classList.add('matched');
         // Update game state for matched pair and score
-        gameState.score+=10;
+        gameState.score += 10;
         gameState.matchedPair++;
         gameState.flippedCards = [];
         updateScoreDisplay();
 
         // Decision Point: check Win condition if all pairs are matched
-        if ( gameState.matchedPair === gameState.cards.length / 2) {
+        if (gameState.matchedPair === gameState.cards.length / 2) {
             clearInterval(gameState.timerInterval);
             setTimeout(() => alert(`BWAAAH! You won in ${gameState.timer} seconds! 🏆 ( •̀ ω •́ )✧`), 300);
         }
@@ -215,12 +171,14 @@ function updateScoreDisplay() {
     document.getElementById('score').textContent = gameState.score;
 }
 
-// Event listeners & intialization
+// Event listeners & initialization
 document.addEventListener('DOMContentLoaded', () => {
-    // Start Canavas visual rendering and animation
+    // Start Canvas visual rendering and animation from canvas.js module
     initCanvasAnimation();
 
-    // Event listener for Start Game button press
-    const startBtn = document.getElementById('start-btn');
-    startBtn.addEventListener('click', initializeGame);
+    // Event listener for Start Game button press (Matches button ID in index.html)
+    const startBtn = document.getElementById('start-button');
+    if (startBtn) {
+        startBtn.addEventListener('click', initializeGame);
+    }
 });

@@ -4,7 +4,9 @@
         <meta charset="UTF-8">
         <title>Rabbids Bwaaah Match</title>
         <link href="style.css" rel="stylesheet">
-        <script src="cards.js"defer></script>
+        <!-- Tell the browser that the script is an ES6 module -->
+         <!-- This unlocks the use of import/export statements -->
+        <script type="module" src="cards.js" defer></script>
         <link rel="icon" type="image/x-icon" href="/images/rabbidsInvasion.ico">
     </head>
     <body>
@@ -17,8 +19,8 @@
              <section id ="control-panel">
                 <button id="start-button">Start Game</button>
                 <div id="score-board">
-                    <span>Score: <stong id="score">0<strong></strong></span>
-                    <span>Time: <stong id="Time">0<strong></strong></span>
+                    <span>Score: <strong id="score">0</strong></span>
+                    <span>Time: <strong id="time">0</strong></span>
                 </div>
              </section>
              <!-- Canvas Element for Custom Visuals/Animation -->
