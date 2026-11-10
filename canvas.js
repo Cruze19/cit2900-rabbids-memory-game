@@ -8,8 +8,8 @@ export function initCanvasAnimation() {
     const canvas = document.getElementById('rabbidCanvas');
     const context = canvas.getContext('2d'); 
     
-    let xPos = 50;
-    let direction = 2;
+    let xPos = 100; // create moving position variable for the text
+    let direction = 2; // control speed and direction of the text movement
 
     function animate() {
         // Clear canvas frame

@@ -52,7 +52,7 @@ function loadCardData() {
  */
 async function initializeGame() {
     const board = document.getElementById('game-board');
-    board.innerHTML = '';
+    board.innerHTML = ''; // Clear existing cards from the board
     
     // Reset game state variables
     gameState.score = 0;
@@ -142,7 +142,7 @@ function checkForMatch() {
         // Update game state for matched pair and score
         gameState.score += 10;
         gameState.matchedPair++;
-        gameState.flippedCards = [];
+        gameState.flippedCards = []; 
         updateScoreDisplay();
 
         // Decision Point: check Win condition if all pairs are matched

@@ -2,67 +2,101 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     margin: 0px;
-    padding: 0;
+    padding: 20px;
+    background-color: #d2d5d8;
 }
 
-/* Header Styling */
-header {
-    background-color: #ffffff;
-    padding: 20px 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    margin-bottom: 20px;
-    text-align: center;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-
-}
-
-h1 {
-    color: #1a73e8;
-    margin: 0 0 8px 0;
-    font-size: 2rem;
+header h1 {
+    color: #d32f2f;
+    margin-bottom: 5px;
 }
 
 header p {
     color: #666;
-    margin: 0;
-    font-size: 1rem;
+    margin-top: 0px;
 }
 
-/* Main Container Styling */
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-   
-}
-
-/* Control Panel & Scoreboard */
 #control-panel {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #1dda24;
-    padding: 15px 25px;
-    width: 100%;
-    max-width: 750px;
-
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    margin-bottom: 20px;
-    box-sizing: border-box;
+    margin: 20px 0;
 }
 
 #start-button {
-    background-color: #ff3b30;
+    padding: 10px 22px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #d32f2f;
     color: white;
     border: none;
-    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#start-button:hover {
+    background-color: #b71c1c;
+}
+
+#score-board {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+#score-board span {
+    margin: 0 15px;
+}
+
+/* --- Game Boad % Gird Layout --- */
+#game-board {
+    display: grid;
+    /* Automatically creates near rows and columns that fit screen sizes */
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    gap: 15px;
+    max-width: 650px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Card Styling --- */
+.card {
+    aspect-ratio: 1; /* Forces cards to be a perfecrt square */
+    background-color: #2196f3;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: background-color 0.2s transform 0.1s;
+    user-select: none;
+    transition: tranform 0.2s ease background-color 0.2s ease;
+    box-shadow: 0 2px 5 px rgba(0, 0, 0, 0.2);
+}
+
+.card:hover {
+    transform: scale(1.05); /* Slight pop effect when hovering */
+}
+
+.card.flipped {
+    background-color: #ffffff;
+    border: 3px solid #2196f3;
+}
+
+.card.matched {
+    background-color: #4caf54;
+    border-color: #388e3c;
+    cursor: pointer;
+    transform: none;
+}
+
+/* --- Automatic Image Sizing --- */
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Scales Rabbid images neatly without cutting off parts or stretching */
+    border-radius: 6px;
+    padding: 4px;
 }
