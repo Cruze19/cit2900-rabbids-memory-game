@@ -1,6 +1,4 @@
-'use strict'; // Strict Mode requirment
-
-import { initCanvasAnimation } from './canvas.js';
+'use strict'; // Strict Mode requirement
 
 // JSON data & game state object: images, names, and unique identifiers for each card
 const cardDataJSON = [
@@ -49,7 +47,7 @@ function loadCardData() {
     Canvas Requirement
     Custom animated and transformed graphic
 */
-export function initCanvasAnimation() {
+function initCanvasAnimation() {
     const canvas = document.getElementById('rabbidCanvas');
     const context = canvas.getContext('2d'); 
     
@@ -194,7 +192,7 @@ function checkForMatch() {
         // Decision Point: check Win condition if all pairs are matched
         if (gameState.matchedPair === gameState.cards.length / 2) {
             clearInterval(gameState.timerInterval);
-            setTimeout(() => alert(`BWAAAH! You won in ${gameState.timer} seconds! You're score is ${gameState.score}! 🏆 ( •̀ ω •́ )✧`), 300);
+            setTimeout(() => alert(`BWAAAH! You won in ${gameState.timer} seconds! Your score is ${gameState.score}! 🏆 ( •̀ ω •́ )✧`), 300);
         }
     } else {
         // Cards do not match: lock board and hide cards after delay
@@ -219,7 +217,7 @@ function updateScoreDisplay() {
 
 // Event listeners & initialization
 document.addEventListener('DOMContentLoaded', () => {
-    // Start Canvas visual rendering and animation from canvas.js module
+    // Start Canvas visual rendering and animation defined in canvas.js
     initCanvasAnimation();
 
     // Event listener for Start Game button press (Matches button ID in index.html)
