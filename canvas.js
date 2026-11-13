@@ -4,7 +4,7 @@
     Canvas Requirement
     Custom animated and transformed graphic
 */
-export function initCanvasAnimation() {
+function initCanvasAnimation() {
     const canvas = document.getElementById('rabbidCanvas');
     const context = canvas.getContext('2d'); 
     
@@ -46,3 +46,4 @@ export function initCanvasAnimation() {
 
     animate();
 }
+export default GameGrid;
