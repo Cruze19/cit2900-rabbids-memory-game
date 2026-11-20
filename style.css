@@ -3,7 +3,7 @@ body {
     text-align: center;
     margin: 0px;
     padding: 20px;
-    background-color: #d2d5d8;
+    background-color: #aecff0;
 }
 
 header h1 {
@@ -37,7 +37,6 @@ header p {
 }
 
 #score-board {
-    margin-top: 10px;
     font-size: 1.1rem;
     color: #333;
 }
@@ -46,7 +45,7 @@ header p {
     margin: 0 15px;
 }
 
-/* --- Game Boad % Gird Layout --- */
+/* --- Game Boad & Gird Layout --- */
 #game-board {
     display: grid;
     /* Automatically creates near rows and columns that fit screen sizes */
@@ -57,13 +56,13 @@ header p {
     padding: 20px;
     background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* --- Card Styling --- */
 .card {
     aspect-ratio: 1; /* Forces cards to be a perfecrt square */
-    background-color: #2196f3;
+    background-color: #0988f0;
     color: white;
     font-size: 2rem;
     font-weight: bold;
@@ -83,7 +82,7 @@ header p {
 
 .card.flipped {
     background-color: #ffffff;
-    border: 3px solid #2196f3;
+    border: 4px solid #fbb6ff;
 }
 
 .card.matched {

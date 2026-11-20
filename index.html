@@ -20,8 +20,9 @@
                   </section>
                   <!-- Score & time board -->
                    <div id="score-board"> 
+                    <span>Mismatch: <strong id="mismatch">0</strong></span>
                     <span>Score: <strong id="score">0</strong></span>
-                    <span>Time: <strong id="timer">0</strong></span>
+                    <span>Timer: <strong id="timer">0.00</strong></span>
                    </div>
                    <!-- Memory Card Game Board -->
                     <div id="game-board" class="board"></div>
@@ -29,11 +30,8 @@
              </section>
         </main>
         <footer>
-            <p><strong>Instructions: </strong> Click "Start Game" to play. Match pairs of Rabbids pictures!</p>
+            <p><strong>Instructions:</strong> Click "Start Game" to play. Match pairs of Rabbids pictures!</p>
         </footer>
-
-        <!-- Standard script tags without modules (can be opened directly via file://) -->
-        <script src="canvas.js"></script>
-        <script src="cards.js"></script>
+        <script type="module" src="js/cards.js"></script>
     </body>
 </html>

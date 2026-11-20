@@ -1,5 +1,6 @@
 'use strict'; // Strict Mode requirement
-
+ import { initCanvasAnimation } from './canvas.js';
+ 
 // JSON data & game state object: images, names, and unique identifiers for each card
 const cardDataJSON = [
     { id: 1, name: "Raddid 1", img: "images/rabbids/rabbid1.png" },
@@ -19,9 +20,10 @@ const cardDataJSON = [
     { id: 15, name: "Rabbid 15", img: "images/rabbids/rabbid15.png" }
 ];
 
-// Game state object to track the current game status
+// These variables hold the current round's cards, score, timer, and turn state.
 const gameState = {
     score: 0,
+    mismatch: 0,
     timer: 0,
     timerInterval: null,
     matchedPair: 0,
@@ -43,52 +45,6 @@ function loadCardData() {
     });
 }
 
-/*
-    Canvas Requirement
-    Custom animated and transformed graphic
-*/
-function initCanvasAnimation() {
-    const canvas = document.getElementById('rabbidCanvas');
-    const context = canvas.getContext('2d'); 
-    
-    let xPos = 100; // create moving position variable for the text
-    let direction = 2; // control speed and direction of the text movement
-
-    function animate() {
-        // Clear canvas frame
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Save Canvas state before transformation
-        context.save();
-
-        // Apply translation and scaling transformations
-        context.translate(xPos, 50);
-        context.scale(1.1, 1.1);
-
-        // Draw custom graphic banner
-        context.fillStyle = '#d32f2f';
-        context.fillRect(-50, -20, 100, 40);
-
-        // Draw text onto canvas
-        context.fillStyle = '#ffffff';
-        context.font = 'bold 16px Arial';
-        context.fillText('BWAAAH!', -35, 6);
-
-        // Restore canvas state
-        context.restore();
-
-        // Decision Point: Reverse direction if text hits borders
-        if (xPos > 340 || xPos < 60) {
-            direction = -direction;
-        }
-
-        // Update position for next frame and request next animation frame
-        xPos += direction;
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-}
 
 /**
  * Game Logic & Functions
@@ -191,12 +147,18 @@ function checkForMatch() {
 
         // Decision Point: check Win condition if all pairs are matched
         if (gameState.matchedPair === gameState.cards.length / 2) {
-            clearInterval(gameState.timerInterval);
-            setTimeout(() => alert(`BWAAAH! You won in ${gameState.timer} seconds! Your score is ${gameState.score}! 🏆 ( •̀ ω •́ )✧`), 300);
-        }
+            window.clearInterval(gameState.timerInterval);
+            setTimeout(() => {
+                alert(`BWAAAH! You won in ${gameState.timer} seconds! Your score is ${gameState.score}! 🏆, Mismatches: ${gameState.mismatch}`);
+            }, 300);
+        } 
+
     } else {
-        // Cards do not match: lock board and hide cards after delay
-        gameState.isLocked = true;
+        // Cards do not match: counts the mismatch, update display, lock board, and flip back
+        gameState.mismatch += 1;
+        updateScoreDisplay();
+        gameState.isLocked = true5
+
         setTimeout(() => {
             card1.element.classList.remove('flipped');
             card1.element.textContent = '?';
@@ -213,6 +175,7 @@ function checkForMatch() {
 */
 function updateScoreDisplay() {
     document.getElementById('score').textContent = gameState.score;
+    document.getElementById('mismatch').textContent = gameState.mismatch;
 }
 
 // Event listeners & initialization
