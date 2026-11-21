@@ -20,7 +20,7 @@ const cardDataJSON = [
     { id: 15, name: "Rabbid 15", img: "images/rabbids/rabbid15.png" }
 ];
 
-// These variables hold the current round's cards, score, timer, and turn state.
+// These variables hold the current round's cards, score, mismatch, timer, and turn state.
 const gameState = {
     score: 0,
     mismatch: 0,
@@ -56,15 +56,23 @@ async function initializeGame() {
     
     // Reset game state variables
     gameState.score = 0;
+    gameState.mismatch = 0;
     gameState.matchedPair = 0;
-    gameState.timer = 0; 
+    gameState.timer = 60; 
+    document.getElementById('timer').textContent = gameState.timer;
     updateScoreDisplay();
 
-    // Reset and start timer interval
+    // Reset timer when pleyer hit 'New Game' button
     clearInterval(gameState.timerInterval);
     gameState.timerInterval = setInterval(() => {
-        gameState.timer++;
+        gameState.timer--;
         document.getElementById('timer').textContent = gameState.timer;
+
+        // Add a if statement when player timer is finish
+        if (gameState.timer <= 0) {
+            clearInterval(gameState.timerInterval);
+            alert("Time's up! BWAAAH! Try again!");
+        }
     }, 1000);
 
     try {
@@ -139,6 +147,7 @@ function checkForMatch() {
     if (card1.data.name === card2.data.name) {
         card1.element.classList.add('matched');
         card2.element.classList.add('matched');
+        
         // Update game state for matched pair and score
         gameState.score += 10;
         gameState.matchedPair++;
@@ -157,7 +166,7 @@ function checkForMatch() {
         // Cards do not match: counts the mismatch, update display, lock board, and flip back
         gameState.mismatch += 1;
         updateScoreDisplay();
-        gameState.isLocked = true5
+        gameState.isLocked = true;
 
         setTimeout(() => {
             card1.element.classList.remove('flipped');
